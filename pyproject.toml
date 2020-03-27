@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "learntrajdep"
+version = "1.0.0"
+description = " Learning Trajectory Dependencies for Human Motion Prediction"
+authors = ["Wei Mao, Miaomiao Liu, Mathieu Salzmann, Hongdong Li"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+progress = "1.5"
+torch = "0.3.1"
+pandas = "0.22.0"
+matplotlib = "^3.2.1"
+h5py = "^2.10.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
