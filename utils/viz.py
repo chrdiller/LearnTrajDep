@@ -107,7 +107,7 @@ class Ax3DPose(object):
         self.ax.set_xlim3d([-r + xroot, r + xroot])
         self.ax.set_zlim3d([-r + zroot, r + zroot])
         self.ax.set_ylim3d([-r + yroot, r + yroot])
-        self.ax.set_aspect('equal')
+        # self.ax.set_aspect('equal')
 
 
 def plot_predictions(expmap_gt, expmap_pred, fig, ax, f_title):
@@ -130,6 +130,20 @@ def plot_predictions(expmap_gt, expmap_pred, fig, ax, f_title):
     for i in range(nframes_pred):
 
         ob.update(xyz_gt[i, :], xyz_pred[i, :])
+        ax.set_title(f_title + ' frame:{:d}'.format(i + 1), loc="left")
+        plt.show(block=False)
+
+        fig.canvas.draw()
+        plt.pause(0.05)
+
+
+def plot_predictions_direct(xyz_gt, xyz_pred, fig, ax, f_title):
+    nframes_pred = xyz_pred.shape[0]
+    # === Plot and animate ===
+    ob = Ax3DPose(ax)
+    # Plot the prediction
+    for i in range(nframes_pred):
+        ob.update(xyz_gt[i, :].reshape([96]), xyz_pred[i, :].reshape([96]))
         ax.set_title(f_title + ' frame:{:d}'.format(i + 1), loc="left")
         plt.show(block=False)
 

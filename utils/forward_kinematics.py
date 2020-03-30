@@ -231,7 +231,10 @@ def fkl_torch(angles, parent, offset, rotInd, expmapInd):
     """
     n = angles.data.shape[0]
     j_n = offset.shape[0]
-    p3d = Variable(torch.from_numpy(offset)).float().cuda().unsqueeze(0).repeat(n, 1, 1)
+    p3d = Variable(torch.from_numpy(offset)).float()
+    if torch.cuda.is_available():
+        p3d = p3d.cuda()
+    p3d = p3d.unsqueeze(0).repeat(n, 1, 1)
     angles = angles[:, 3:].contiguous().view(-1, 3)
     R = data_utils.expmap2rotmat_torch(angles).view(n, j_n, 3, 3)
     for i in np.arange(1, j_n):
@@ -278,7 +281,9 @@ def main():
     xyz1 = fkl(expmap_pred, parent, offset, rotInd, expmapInd)
     xyz2 = fkl(expmap_gt, parent, offset, rotInd, expmapInd)
 
-    exp1 = Variable(torch.from_numpy(np.vstack((expmap_pred, expmap_gt))).float()).cuda()
+    exp1 = Variable(torch.from_numpy(np.vstack((expmap_pred, expmap_gt))).float())
+    if torch.cuda.is_available():
+        exp1 = exp1.cuda()
     xyz = fkl_torch(exp1, parent, offset, rotInd, expmapInd)
     xyz = xyz.cpu().data.numpy()
     print(xyz)
